@@ -5,7 +5,7 @@ function SearchForm() {
                 <form className="search-form">
                     <div className="search-form__container">
                         <input className="search-form__input" type="text" placeholder="Фильм" required />
-                        <button className="search-form__btn"></button>
+                        <button className="search-form__btn" type="button"></button>
                     </div>
                 </form>
                 <div className="search-form__toggle-container">

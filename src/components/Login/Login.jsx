@@ -3,9 +3,9 @@ import { loginConfig } from '../../utils/const';
 
 function Login() {
   return (
-    <main className="login">
+    <section className="login">
       <AuthForm settings={loginConfig} />
-    </main>
+    </section>
   )
 }
 

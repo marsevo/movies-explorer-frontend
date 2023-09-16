@@ -52,12 +52,12 @@ function MoviesCard({ movieId, duration, image, name, isSavedPage }) {
           </span>
         )}
         {isSaved && !isSavedPage && (
-          <div className="card__checkmark card__checkmark_red" onClick={handleCheckmarkClick}>
+          <div className="card__checkmark card__checkmark-red" onClick={handleCheckmarkClick}>
 
           </div>
         )}
         {(isHovered || isMobile) && isSavedPage && (
-          <div className="card__checkmark card__checkmark_grey" onClick={handleCheckmarkClick}>
+          <div className="card__checkmark card__checkmark-grey" onClick={handleCheckmarkClick}>
 
           </div>
         )}

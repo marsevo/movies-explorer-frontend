@@ -71,12 +71,12 @@
   font-size: 16px;
 }
 
-.card.is-saved .card__checkmark_red {
+.card.is-saved .card__checkmark-red {
   opacity: 1;
   background: url(../../../images/check-red.svg);
 }
 
-.card.is-saved .card__checkmark_grey {
+.card.is-saved .card__checkmark-grey {
   opacity: 1;
 }
 

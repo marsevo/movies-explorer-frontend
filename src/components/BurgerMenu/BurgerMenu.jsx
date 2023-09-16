@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import NavLinkWithClass from '../Navigation/NavLinkWithClass/NavLinkWithClass';
 
 const BURGER_MENU_CLASS = 'burger-menu';
-const BURGER_MENU_ACTIVE_CLASS = 'burger-menu_active';
+const BURGER_MENU_ACTIVE_CLASS = 'burger-menu-active';
 const BURGER_MENU_COVER_CLASS = 'burger-menu__cover';
-const BURGER_MENU_COVER_ACTIVE_CLASS = 'burger-menu__cover_active';
+const BURGER_MENU_COVER_ACTIVE_CLASS = 'burger-menu__cover-active';
 const BURGER_MENU_LINK_CLASS = 'burger-menu__link';
 
 const BurgerMenu = ({ isOpenMenu }) => {

@@ -67,6 +67,7 @@
   background: url(../../images/find-btn.svg);
   border: none;
   border-radius: 6px;
+  cursor: pointer;
 }
 
 .search-form__btn:hover {

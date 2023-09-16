@@ -3,9 +3,9 @@ import { registerConfig } from '../../utils/const';
 
 function Register() {
   return (
-    <main className="register">
+    <section className="register">
       <AuthForm settings={registerConfig} />
-    </main>
+    </section>
   )
 }
 

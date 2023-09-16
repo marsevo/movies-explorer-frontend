@@ -9,12 +9,12 @@ function SavedMovies() {
     <>
       <Header />
       <div className='movies__saved-container'>
-        <main className="movies__saved">
+      <section className="movies__saved">
           <SearchForm />
           <MoviesCardList
             cardList={savedCardList} isSavedPage={true}
           />
-        </main>
+        </section>
         <Footer />
       </div>
     </>

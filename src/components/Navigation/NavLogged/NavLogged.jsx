@@ -16,7 +16,7 @@ const NavLogged = () => {
 
     return (
         <>
-            <button className={isOpenMenu ? BURGER_CROSS_CLASS : BURGER_BTN_CLASS} onClick={toggleBurgerMenu} />
+            <button className={isOpenMenu ? BURGER_CROSS_CLASS : BURGER_BTN_CLASS} onClick={toggleBurgerMenu} type="button"/>
             <BurgerMenu isOpenMenu={isOpenMenu} />
             <div className='nav__logged'>
                 <div className="nav__logged-links">

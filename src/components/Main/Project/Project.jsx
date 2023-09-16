@@ -23,7 +23,7 @@ function Project() {
                 </li>
             </ul>
             <div className="project__stages">
-                <p className="project__weeks project__weeks_marked">
+                <p className="project__weeks project__weeks-marked">
                     1 неделя
                 </p>
                 <p className="project__weeks">

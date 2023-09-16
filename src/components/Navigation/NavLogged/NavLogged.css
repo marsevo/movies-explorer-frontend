@@ -80,6 +80,10 @@
     .nav__burger-btn, .nav__burger-cross {
         display: block;
     }
+    .nav__burger-btn:hover, 
+    .nav__burger-cross:hover {
+        opacity: 0.6;
+    }
 }
 
 @media (max-width: 400px) {

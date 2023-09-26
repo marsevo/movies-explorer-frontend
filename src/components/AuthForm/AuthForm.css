@@ -59,6 +59,13 @@
     opacity: 0.6;
 }
 
+.form__button_disabled {
+    background-color: #ccc; /* Задайте серый фон */
+    color: #888; /* Задайте серый цвет текста */
+    cursor: not-allowed; /* Задайте "не доступно" для указателя мыши */
+    /* Другие стили по вашему выбору */
+  }
+
 .form__button-text {
     color: #8B8B8B;
     text-align: center;

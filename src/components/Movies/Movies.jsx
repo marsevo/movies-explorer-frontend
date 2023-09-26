@@ -5,21 +5,22 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer.jsx';
 import { moviesApi } from '../../utils/MoviesApi';
 import { filterMovies } from '../../utils/filterMovies'
+import Preloader from "../Preloader/Preloader";
 
-function Movies({ 
+function Movies({
   loggedIn,
   handleSaveMovie,
   savedMovies,
-  handleDeleteMovie 
-}) 
-
-{
+  handleDeleteMovie
+}) {
   const [startMovies, setStartMovies] = useState([]);
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [shortMovies, setShortMovies] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   function searchedMovies(request) {
+    setIsLoading(true);
     localStorage.setItem('movieRequest', request);
     localStorage.setItem('shortMovies', shortMovies);
     if (localStorage.getItem('allMovies')) {
@@ -27,10 +28,13 @@ function Movies({
       updateVisibleMovies(movies, shortMovies);
     } else {
       moviesApi.getMovies().then((moviesData) => {
-          updateVisibleMovies(moviesData, shortMovies);
-        })
+        updateVisibleMovies(moviesData, shortMovies);
+      })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
   }
@@ -72,21 +76,24 @@ function Movies({
     <>
       <Header loggedIn={loggedIn} />
       <section className="movies">
-        <SearchForm 
+        <SearchForm
           searchedMovies={searchedMovies}
           shortMovies={shortMovies}
           switchedMovies={handleMoviesSwitch}
           notFound={notFound}
           page="movies"
         />
-        <MoviesCardList 
-          movies={visibleMovies}
-          isSavedMovies={false}
-          savedMovies={savedMovies}
-          handleSaveMovie={handleSaveMovie}
-          handleDeleteMovie={handleDeleteMovie}
-          notFound={notFound}
-        />
+        {isLoading ? (
+          <Preloader />) : (
+          <MoviesCardList
+            movies={visibleMovies}
+            isSavedMovies={false}
+            savedMovies={savedMovies}
+            handleSaveMovie={handleSaveMovie}
+            handleDeleteMovie={handleDeleteMovie}
+            notFound={notFound}
+          />
+        )}
       </section>
       <Footer />
     </>

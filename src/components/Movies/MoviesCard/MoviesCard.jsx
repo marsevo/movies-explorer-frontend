@@ -25,11 +25,18 @@ function MoviesCard({
   }
 
   function handleDeleteClick() {
-    handleDeleteMovie(movie);
-    setIsLabelVisible(false);
+    if (isLabelVisible) {
+      handleDeleteMovie(savedMovies.filter((m) => m.movieId === (movie.id).toString())[0]);
+      setIsLabelVisible(false);
+    }
+    else {
+      handleDeleteMovie(movie);
+      setIsLabelVisible(false);
+    }
   }
 
   function handleSaveClick() {
+
     handleSaveMovie(movie);
     setIsLabelVisible(true);
   }
@@ -77,8 +84,8 @@ function MoviesCard({
           </button>
         )}
         {isLabelVisible && (
-          <label className="card__checkmark-red">
-          </label>
+          <button className="card__checkmark-red" onClick={handleDeleteClick}>
+          </button>
         )}
         {(isHovered || isMobile) && isSavedMovies && (
           <button className="card__checkmark card__checkmark-grey" onClick={handleDeleteClick}>

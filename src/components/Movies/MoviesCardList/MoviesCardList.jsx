@@ -86,28 +86,10 @@ function MoviesCardList({
   return (
     <>
       <section className="movies-card">
-        {pathname === '/saved-movies' ? (
-          <ul className="movies-card__list">
-            <React.Fragment>
-              {movies.map((movie) => {
-                return (
-                  <MoviesCard
-                    key={isSavedMovies ? movie._id : movie.id}
-                    movie={movie}
-                    savedMovies={savedMovies}
-                    isSavedMovies={isSavedMovies}z
-                    handleSaveMovie={handleSaveMovie}
-                    handleDeleteMovie={handleDeleteMovie}
-                  />
-                );
-              })}
-            </React.Fragment>
-          </ul>
-        ) : (
-          <ul className="movies-card__list">
-            <React.Fragment>
-              {movies.slice(0, settledVisibleRows).map((movie) => {
-                return (
+        <ul className="movies-card__list">
+          <React.Fragment>
+            {pathname === '/saved-movies'
+              ? movies.map((movie) => (
                   <MoviesCard
                     key={isSavedMovies ? movie._id : movie.id}
                     movie={movie}
@@ -116,14 +98,22 @@ function MoviesCardList({
                     handleSaveMovie={handleSaveMovie}
                     handleDeleteMovie={handleDeleteMovie}
                   />
-                );
-              })}
-
-            </React.Fragment>
-          </ul>
-        )}
+                ))
+              : movies.slice(0, settledVisibleRows).map((movie) => (
+                  <MoviesCard
+                    key={isSavedMovies ? movie._id : movie.id}
+                    movie={movie}
+                    savedMovies={savedMovies}
+                    isSavedMovies={isSavedMovies}
+                    handleSaveMovie={handleSaveMovie}
+                    handleDeleteMovie={handleDeleteMovie}
+                  />
+                ))}
+          </React.Fragment>
+        </ul>
       </section>
-      {!areAllMoviesShown && (
+  
+      {pathname !== '/saved-movies' && movies.length > 0 && !areAllMoviesShown && (
         <div className="movies__container" onClick={showMoreMovies}>
           <button type="button" className="movies__button">
             Еще
@@ -132,6 +122,7 @@ function MoviesCardList({
       )}
     </>
   );
+  
 }
 
 export default MoviesCardList;

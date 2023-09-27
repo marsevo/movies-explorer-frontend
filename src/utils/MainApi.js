@@ -56,7 +56,7 @@ class MainApi {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      credentials: 'include',
+      // credentials: 'include',
     })
       .then((res) => this._checkResponse(res))
       .then(data => data)
@@ -120,7 +120,6 @@ class MainApi {
   };
 
   deleteMovie(movieId) {
-    movieId = movieId.toString();
     return fetch(`${this.baseUrl}movies/${movieId}`, {
       method: 'DELETE',
       headers: {

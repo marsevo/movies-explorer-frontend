@@ -41,8 +41,10 @@ function Movies({
 
   function handleMoviesSwitch() {
     setShortMovies(!shortMovies);
-    updateVisibleMovies(startMovies, shortMovies);
-    localStorage.setItem('shortMovies', !shortMovies);
+    if (startMovies.length > 0) {
+      updateVisibleMovies(startMovies, shortMovies);
+      localStorage.setItem('shortMovies', !shortMovies);
+    }
   }
 
   function updateVisibleMovies(movies, short) {

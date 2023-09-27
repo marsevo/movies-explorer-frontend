@@ -11,15 +11,21 @@ const AuthForm = ({ settings, onSubmit, requestError }) => {
     password: '',
   });
   const [responseError, setResponseError] = useState(null);
+  const [formDisabled, setFormDisabled] = useState(false);
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    if (isValid) {
-      try {
-        await onSubmit(values);
-      } catch (error) {
-        console.log('error in catch', error);
-      }
+
+    if (!isValid) {
+      setFormDisabled(false);
+      return;
+    }
+    try {
+      setFormDisabled(true);
+      await onSubmit(values);
+      setFormDisabled(false);
+    } catch (error) {
+      console.log('error in catch', error);
     }
   };
 
@@ -33,8 +39,13 @@ const AuthForm = ({ settings, onSubmit, requestError }) => {
     }
     return () => {
       clearTimeout(timeoutId);
+      setResponseError(null);
     };
   }, [requestError]);
+
+  useEffect(() => {
+    setResponseError(null);
+  }, [settings.type]);
 
   return (
     <form className="form" onSubmit={handleSubmit}>
@@ -57,6 +68,7 @@ const AuthForm = ({ settings, onSubmit, requestError }) => {
             required
             value={values.name}
             onChange={handleChange}
+            disabled={formDisabled}
           />
           <span className={`form__error ${errors.name ? "form__error_active" : ""}`}>
             {errors.name}
@@ -70,10 +82,12 @@ const AuthForm = ({ settings, onSubmit, requestError }) => {
           className="form__input-field"
           type="email"
           name="email"
+          pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
           placeholder="Введите email"
           required
           value={values.email}
           onChange={handleChange}
+          disabled={formDisabled}
         />
         <span className={`form__error ${errors.email ? "form__error_active" : ""}`}>
           {errors.email}
@@ -92,6 +106,7 @@ const AuthForm = ({ settings, onSubmit, requestError }) => {
           required
           value={values.password}
           onChange={handleChange}
+          disabled={formDisabled}
         />
         <span className={`form__error ${errors.password ? "form__error_active" : ""}`}>
           {errors.password}
@@ -108,7 +123,7 @@ const AuthForm = ({ settings, onSubmit, requestError }) => {
           className={`form__button form__button_space-reg ${isValid ? "" : "form__button_disabled"
             }`}
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || formDisabled}
         >
           {settings.buttonText}
         </button>
@@ -119,7 +134,7 @@ const AuthForm = ({ settings, onSubmit, requestError }) => {
           className={`form__button form__button_space-log ${isValid ? "" : "form__button_disabled"
             }`}
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || formDisabled}
         >
           {settings.buttonText}
         </button>

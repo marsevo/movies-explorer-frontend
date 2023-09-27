@@ -27,5 +27,5 @@ export const CARDS_ADDING_MEDIUM = 2;
 export const CARDS_ADDING_SMALL = 2;
 
 export const regexName = /^[а-яА-ЯёЁa-zA-Z -]+$/u;
-export const regexEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+export const regexEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/; 
 export const regexPassword = /^(?=.*[a-zA-Z0-9_]).{8,16}$/;

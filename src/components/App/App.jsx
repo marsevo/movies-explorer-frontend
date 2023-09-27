@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import Main from "../Main/Main";
 import Register from "../Register/Register";
@@ -12,26 +12,25 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { api } from '../../utils/MainApi';
 
 function App() {
-  const userIdInLocalStorage = localStorage.getItem('userData');
-  const [currentUser, setCurrentUser] = useState({
-    name: null,
-    email: null,
-    loggeIn: !!userIdInLocalStorage,
-  });
+
+  const [currentUser, setCurrentUser] = useState({});
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const [savedMovies, setSavedMovies] = useState([]);
   const [requestError, setRequestError] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('jwt');
+    const curentPath = location.pathname;
 
     if (token) {
       api.getContent(token)
         .then((userData) => {
           setLoggedIn(true);
+          navigate(curentPath, { replace: true });
           setCurrentUser(userData);
           localStorage.setItem('userData', JSON.stringify(userData));
           setIsLoad(true);
@@ -58,7 +57,7 @@ function App() {
           localStorage.setItem('jwt', res.token);
           localStorage.setItem('email', email);
           setLoggedIn(true);
-          navigate("/movies");
+          navigate("/movies", { replace: true });
         }
       })
       .catch((err) => {
@@ -69,7 +68,8 @@ function App() {
 
   function handleRegister(name, email, password) {
     api.register({ name, email, password }).then(() => {
-      navigate("/signin", { replace: true });
+      handleLogin(email, password);
+      navigate("/movies", { replace: true });
     })
       .catch(err => {
         setRequestError(err);
@@ -91,7 +91,7 @@ function App() {
     });
     localStorage.clear();
     setLoggedIn(false);
-    navigate("/signin", { replace: true });
+    navigate("/", { replace: true });
   }
 
   function handleSaveMovie(movie) {
@@ -138,14 +138,15 @@ function App() {
         <>
           <Routes>
             <Route
-              path='/'
+              path={'/'}
               element={<Main loggedIn={loggedIn} />}
             />
             <Route
-              path='/profile'
+              path={'/profile'}
               element={<ProtectedRoute
-                element={Profile}
+                path='/profile'
                 loggedIn={loggedIn}
+                element={Profile}
                 isLoad={isLoad}
                 setIsLoad={setIsLoad}
                 onSignOut={signOut}
@@ -156,8 +157,9 @@ function App() {
             />
 
             <Route
-              path='/movies'
+              path={'/movies'}
               element={<ProtectedRoute
+                path='/movies'
                 element={Movies}
                 loggedIn={loggedIn}
                 savedMovies={savedMovies}
@@ -167,9 +169,10 @@ function App() {
               }
             />
             <Route
-              path='/saved-movies'
+              path={'/saved-movies'}
               element={
                 <ProtectedRoute
+                path='/saved-movies'
                   element={SavedMovies}
                   loggedIn={loggedIn}
                   savedMovies={savedMovies}
@@ -177,11 +180,12 @@ function App() {
                   handleDeleteMovie={handleDeleteMovie}
                 />}
             />
-            <>
-              <Route
+               <Route
                 path='*'
                 element={<NotFound />}
               />
+            <>
+           
 
               <Route
                 path='/signup'

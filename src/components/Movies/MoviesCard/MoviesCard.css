@@ -31,7 +31,7 @@
   top: 14px;
   right: 14px;
   background-color: #313131;
-  border: none;
+  border-style: none;
   border-radius: 30px;
   cursor: pointer;
   z-index: 3;
@@ -43,6 +43,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border: none;
 }
 
 .card__img-container.with-hover:hover .card__save-text {
@@ -61,7 +62,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0;
+  border-style: none;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  z-index: 3;
+}
+
+.card__checkmark-red {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background: url(../../../images/check-red.svg);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: none;
+  cursor: pointer;
+  opacity: 1;
   transition: opacity 0.2s ease;
   z-index: 3;
 }
@@ -73,7 +94,7 @@
 
 .card.is-saved .card__checkmark-red {
   opacity: 1;
-  background: url(../../../images/check-red.svg);
+  z-index: 3;
 }
 
 .card.is-saved .card__checkmark-grey {

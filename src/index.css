@@ -26,3 +26,5 @@
 @import url('./components/SearchForm/SearchForm.css');
 @import url('./components/Movies/MoviesCard/MoviesCard.css');
 @import url('./components/Movies/MoviesCardList/MoviesCardList.css');
+
+@import url('./components/Preloader/Preloader.css');

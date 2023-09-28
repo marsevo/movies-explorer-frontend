@@ -1,11 +1,13 @@
-import React from 'react';
+
+import React from "react";
 import './Header.css';
 import Navigation from '../Navigation/Navigation';
 
-const Header = () => {
+const Header = ({ loggedIn }) => {
+
   return (
     <header className='header'>
-      <Navigation className='nav' />
+      <Navigation className='nav' loggedIn={loggedIn}/>
     </header>
   );
 };

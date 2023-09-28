@@ -54,7 +54,6 @@
       max-width: 708px;
       grid-template-columns: repeat(2, minmax(1%, 1fr));
       row-gap: 45px;
-      max-height: calc(4 * (231px + 47px)); 
       overflow: hidden;
       height: auto;
   }
@@ -67,7 +66,6 @@
 
   .movies-card__list {
       grid-template-columns: repeat(1, minmax(1%, 1fr));
-      max-height: calc(5 * (233px + 35px));
       row-gap: 35px;
   }
 }
@@ -80,7 +78,6 @@
 
   .movies-card__list {
       grid-template-columns: repeat(1, minmax(1%, 1fr));
-      max-height: calc(5 * (199px + 35px));
       row-gap: 35px;
   }
 }

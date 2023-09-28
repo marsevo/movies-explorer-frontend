@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
-import { savedCardList } from '../../../utils/const';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
 
-function MoviesCard({ movieId, duration, image, name, isSavedPage }) {
-  const isSavedMovieCard = savedCardList.some((i) => i.movieId === movieId);
-  const [isSaved, setIsSaved] = useState(isSavedMovieCard);
+function MoviesCard({
+  movie,
+  savedMovies,
+  isSavedMovies,
+  handleSaveMovie,
+  handleDeleteMovie,
+}) {
+  const location = useLocation();
   const [isHovered, setIsHovered] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 400 });
-
-
-  function toggleSave() {
-    if (!isSaved) {
-      setIsSaved(true);
-    } else {
-      setIsSaved(false);
-    }
-  }
+  const [isLabelVisible, setIsLabelVisible] = useState();
 
   function handleMouseEnter() {
     setIsHovered(true);
@@ -26,11 +24,21 @@ function MoviesCard({ movieId, duration, image, name, isSavedPage }) {
     setIsHovered(false);
   }
 
-  function handleCheckmarkClick() {
-    setIsSaved(false);
-    if (isSavedPage) {
-      console.log('Вы кликнули на крестик');
+  function handleDeleteClick() {
+    if (isLabelVisible) {
+      handleDeleteMovie(savedMovies.filter((m) => m.movieId === (movie.id).toString())[0]);
+      setIsLabelVisible(false);
     }
+    else {
+      handleDeleteMovie(movie);
+      setIsLabelVisible(false);
+    }
+  }
+
+  function handleSaveClick() {
+
+    handleSaveMovie(movie);
+    setIsLabelVisible(true);
   }
 
   function getDuration(duration) {
@@ -43,32 +51,58 @@ function MoviesCard({ movieId, duration, image, name, isSavedPage }) {
     return `${hoursText}${minutesText}`;
   }
 
+  function getImageSrc(movie, isSavedMovies) {
+    if (isSavedMovies) {
+      return movie.image;
+    } else {
+      return `https://api.nomoreparties.co/${movie.image.url}`;
+    }
+  }
+
+  function isMovieInSaved(savedMovies, movie) {
+    const movieIdAsString = movie.id.toString();
+    return savedMovies.some((savedMovie) => savedMovie.movieId === movieIdAsString);
+  }
+
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      const isMovieSaved = isMovieInSaved(savedMovies, movie);
+      setIsLabelVisible(isMovieSaved);
+    } else {
+      setIsLabelVisible(false);
+    }
+  }, [savedMovies, movie, location.pathname]);
+
   return (
-    <li className={`card ${isSaved ? 'is-saved' : ''}`}>
-      <div className={`card__img-container ${isMobile ? '' : 'with-hover'}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        {(isHovered || isMobile) && !isSaved && !isSavedPage && (
-          <span className="card__save-text" onClick={toggleSave}>
+    <li className="card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div className={`card__img-container ${isMobile ? '' : 'with-hover'}`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}>
+        {(isHovered || isMobile) && !isSavedMovies && !isLabelVisible && (
+          <button className="card__save-text" type="button" onClick={handleSaveClick}>
             Сохранить
-          </span>
+          </button>
         )}
-        {isSaved && !isSavedPage && (
-          <div className="card__checkmark card__checkmark-red" onClick={handleCheckmarkClick}>
-
-          </div>
+        {isLabelVisible && (
+          <button className="card__checkmark-red" onClick={handleDeleteClick}>
+          </button>
         )}
-        {(isHovered || isMobile) && isSavedPage && (
-          <div className="card__checkmark card__checkmark-grey" onClick={handleCheckmarkClick}>
-
-          </div>
+        {(isHovered || isMobile) && isSavedMovies && (
+          <button className="card__checkmark card__checkmark-grey" onClick={handleDeleteClick}>
+          </button>
         )}
-        <img src={image} alt={name} className="card__img" />
+        <Link to={movie.trailerLink} target={'_blank'} className="movie__link">
+          <img className="card__img"
+            src={getImageSrc(movie, isSavedMovies)} alt='movie.nameRU' />
+        </Link>
       </div>
       <div className="card__header">
-        <h2 className="card__title">{name}</h2>
-        <p className="card__duration">{getDuration(duration)}</p>
+        <h2 className="card__title">{movie.nameRU}</h2>
+        <p className="card__duration">{getDuration(movie.duration)}</p>
       </div>
     </li>
   );
 }
+
 
 export default MoviesCard;

@@ -6,10 +6,10 @@ import Technologies from "./Technologies/Technologies.jsx";
 import Portfolio from "./Portfolio/Portfolio.jsx";
 import Footer from "../Footer/Footer.jsx";
 
-function Main() {
+function Main({ loggedIn }) {
     return (
         <>
-            <Header />
+            <Header loggedIn={loggedIn} />
             <main>
                 <Hero />
                 <Project />

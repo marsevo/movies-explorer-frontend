@@ -23,19 +23,22 @@ function Movies({
     setIsLoading(true);
     localStorage.setItem('movieRequest', request);
     localStorage.setItem('shortMovies', shortMovies);
+
     if (localStorage.getItem('allMovies')) {
       const movies = JSON.parse(localStorage.getItem('allMovies'));
       updateVisibleMovies(movies, shortMovies);
+      setIsLoading(false);
     } else {
       moviesApi.getMovies().then((moviesData) => {
+        localStorage.setItem('allMovies', JSON.stringify(moviesData)); 
         updateVisibleMovies(moviesData, shortMovies);
       })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
     }
   }
 

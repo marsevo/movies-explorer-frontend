@@ -23,14 +23,13 @@ function MoviesCardList({
 }) {
 
   const { pathname } = useLocation();
-  const [areAllMoviesShown, setAreAllMoviesShown] = useState(false);
   const [settledVisibleRows, setSettledVisibleRows] = useState(getInitialVisibleRows());
 
   function getInitialVisibleRows() {
     const windowWidth = window.innerWidth;
-    if (windowWidth > MAX_SCREEN_LARGE) {
+    if (windowWidth > MAX_SCREEN_MEDIUM) {
       return VISIBLE_ROWS_LARGE;
-    } else if (windowWidth >= MAX_SCREEN_MEDIUM) {
+    } else if ( (windowWidth <= MAX_SCREEN_MEDIUM) && (windowWidth > MAX_SCREEN_SMALL)) {
       return VISIBLE_ROWS_MEDIUM;
     } else {
       return VISIBLE_ROWS_SMALL;
@@ -56,9 +55,7 @@ function MoviesCardList({
     const newVisibleRows = Math.min(settledVisibleRows + addition, movies.length);
 
     setSettledVisibleRows(newVisibleRows);
-    if (newVisibleRows >= movies.length) {
-      setAreAllMoviesShown(true);
-    }
+
   }
 
   useEffect(() => {
@@ -113,7 +110,7 @@ function MoviesCardList({
         </ul>
       </section>
   
-      {pathname !== '/saved-movies' && movies.length > 0 && !areAllMoviesShown && (
+      {pathname !== '/saved-movies' && (movies.length > settledVisibleRows) && (
         <div className="movies__container" onClick={showMoreMovies}>
           <button type="button" className="movies__button">
             Еще
